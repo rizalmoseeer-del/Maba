@@ -1,0 +1,2193 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+
+<title>Device Hub 2026</title>
+
+<style>
+*{
+  box-sizing:border-box;
+  -webkit-tap-highlight-color:transparent;
+}
+
+body{
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#080d18;
+  color:white;
+}
+
+button{
+  border:0;
+  border-radius:14px;
+  padding:15px;
+  color:white;
+  font-size:15px;
+  font-weight:bold;
+  cursor:pointer;
+  background:#2563eb;
+}
+
+button:active{
+  transform:scale(.97);
+}
+
+input,textarea{
+  width:100%;
+  padding:14px;
+  border-radius:12px;
+  border:1px solid #26344d;
+  background:#101827;
+  color:white;
+  margin:7px 0;
+}
+
+textarea{
+  min-height:100px;
+}
+
+.hidden{
+  display:none !important;
+}
+
+/* HOME */
+
+.home{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.home-box{
+  width:100%;
+  max-width:450px;
+  text-align:center;
+}
+
+.logo{
+  width:80px;
+  height:80px;
+  margin:auto;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:28px;
+  font-weight:bold;
+  border-radius:25px;
+  background:linear-gradient(135deg,#2563eb,#7c3aed);
+}
+
+.mode-btn{
+  width:100%;
+  min-height:100px;
+  margin-top:15px;
+  text-align:left;
+  background:#111b2e;
+  border:1px solid #26344d;
+}
+
+.mode-btn span{
+  display:block;
+  font-size:25px;
+  margin-bottom:8px;
+}
+
+/* SIDEBAR */
+
+.sidebar{
+  position:fixed;
+  left:0;
+  top:0;
+  bottom:0;
+  width:230px;
+  padding:15px;
+  background:#0c1322;
+  border-right:1px solid #26344d;
+  z-index:10;
+}
+
+.brand{
+  padding:15px 8px;
+  margin-bottom:20px;
+}
+
+.brand h2{
+  margin:0;
+}
+
+.brand p{
+  color:#8ea0bb;
+  font-size:11px;
+}
+
+.nav-btn{
+  width:100%;
+  text-align:left;
+  background:transparent;
+  color:#a8b5c9;
+  margin:4px 0;
+}
+
+.nav-btn.active{
+  color:white;
+  background:#1d3157;
+}
+
+.main{
+  margin-left:230px;
+  padding:20px;
+  min-height:100vh;
+}
+
+.top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:20px;
+}
+
+.top h1{
+  margin:0;
+}
+
+.subtitle{
+  color:#8ea0bb;
+  font-size:12px;
+}
+
+/* CARDS */
+
+.grid{
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(150px,1fr));
+  gap:12px;
+}
+
+.card{
+  background:#111b2e;
+  border:1px solid #26344d;
+  border-radius:18px;
+  padding:17px;
+  margin-bottom:15px;
+}
+
+.stat-value{
+  font-size:30px;
+  font-weight:bold;
+  margin:10px 0;
+}
+
+.small{
+  font-size:12px;
+  color:#8ea0bb;
+}
+
+.device{
+  background:#0b1322;
+  border:1px solid #26344d;
+  padding:15px;
+  border-radius:15px;
+  margin-top:10px;
+}
+
+.device-name{
+  font-size:17px;
+  font-weight:bold;
+}
+
+.online{
+  color:#28d17c;
+}
+
+.offline{
+  color:#ff5d73;
+}
+
+.row{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  padding:12px 0;
+  border-bottom:1px solid #26344d;
+}
+
+.actions{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:8px;
+  margin-top:12px;
+}
+
+.secondary{
+  background:#24334d;
+}
+
+.green{
+  background:#159b63;
+}
+
+.red{
+  background:#d93b58;
+}
+
+/* DEVICE CONNECT */
+
+.device-box{
+  width:100%;
+  max-width:500px;
+  margin:auto;
+}
+
+/* MESSAGE */
+
+.message-box{
+  height:300px;
+  overflow:auto;
+  padding:12px;
+  background:#0b1322;
+  border-radius:14px;
+}
+
+.msg{
+  background:#1c2d4d;
+  padding:10px;
+  border-radius:10px;
+  margin-bottom:8px;
+}
+
+/* MOBILE */
+
+.menu-mobile{
+  display:none;
+}
+
+@media(max-width:700px){
+
+  .sidebar{
+    transform:translateX(-100%);
+    transition:.3s;
+  }
+
+  .sidebar.show{
+    transform:translateX(0);
+  }
+
+  .main{
+    margin-left:0;
+    padding:15px;
+  }
+
+  .menu-mobile{
+    display:block;
+  }
+
+  .actions{
+    grid-template-columns:1fr 1fr;
+  }
+
+}
+</style>
+</head>
+
+<body>
+
+<!-- ================= HOME ================= -->
+
+<div id="home" class="home">
+
+<div class="home-box">
+
+<div class="logo">DH</div>
+
+<h1>DEVICE HUB 2026</h1>
+
+<p class="small">
+Personal Device Control Dashboard
+</p>
+
+<button id="dashboardBtn" class="mode-btn">
+
+<span>🖥️</span>
+
+DASHBOARD
+
+<div class="small">
+Kelola perangkat dan aktivitas
+</div>
+
+</button>
+
+
+<button id="deviceBtn" class="mode-btn">
+
+<span>📱</span>
+
+CONNECT DEVICE
+
+<div class="small">
+Hubungkan perangkat ini
+</div>
+
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ================= DASHBOARD ================= -->
+
+<div id="dashboardApp" class="hidden">
+
+<div id="sidebar" class="sidebar">
+
+<div class="brand">
+
+<h2>DEVICE HUB</h2>
+
+<p>MODERN CONTROL 2026</p>
+
+</div>
+
+
+<button class="nav-btn active" data-page="dashboardPage">
+🏠 Dashboard
+</button>
+
+<button class="nav-btn" data-page="devicesPage">
+📱 Devices
+</button>
+
+<button class="nav-btn" data-page="cameraPage">
+📷 Camera
+</button>
+
+<button class="nav-btn" data-page="locationPage">
+📍 Location
+</button>
+
+<button class="nav-btn" data-page="messagesPage">
+💬 Messages
+</button>
+
+<button class="nav-btn" data-page="activityPage">
+📋 Activity
+</button>
+
+<button class="nav-btn" data-page="settingsPage">
+⚙️ Settings
+</button>
+
+</div>
+
+
+<div class="main">
+
+<div class="top">
+
+<div>
+
+<button id="mobileMenu" class="menu-mobile secondary">
+☰
+</button>
+
+<h1 id="pageTitle">Dashboard</h1>
+
+<div id="pageSubtitle" class="subtitle">
+Overview perangkat
+</div>
+
+</div>
+
+<button id="backHome" class="secondary">
+⌂ Home
+</button>
+
+</div>
+
+
+<!-- DASHBOARD PAGE -->
+
+<div id="dashboardPage" class="page">
+
+<div class="grid">
+
+<div class="card">
+
+<div>📱 Total Devices</div>
+
+<div id="totalDevices" class="stat-value">0</div>
+
+<div class="small">Perangkat terhubung</div>
+
+</div>
+
+
+<div class="card">
+
+<div>🟢 Online</div>
+
+<div id="onlineDevices" class="stat-value">0</div>
+
+<div class="small">Aktif sekarang</div>
+
+</div>
+
+
+<div class="card">
+
+<div>🔋 Battery</div>
+
+<div id="batteryValue" class="stat-value">--</div>
+
+<div class="small">Device battery</div>
+
+</div>
+
+
+<div class="card">
+
+<div>📍 Location</div>
+
+<div id="locationCount" class="stat-value">0</div>
+
+<div class="small">Shared location</div>
+
+</div>
+
+</div>
+
+
+<div class="card">
+
+<h3>🔗 Pairing Dashboard</h3>
+
+<div class="row">
+
+<span class="small">Dashboard ID</span>
+
+<b id="dashboardId"></b>
+
+</div>
+
+<p class="small">
+Masukkan ID ini di HP lain pada menu Connect Device.
+</p>
+
+</div>
+
+</div>
+
+
+<!-- DEVICES PAGE -->
+
+<div id="devicesPage" class="page hidden">
+
+<div class="card">
+
+<h3>📱 Devices</h3>
+
+<input id="deviceSearch"
+placeholder="Cari perangkat...">
+
+</div>
+
+<div id="deviceList"></div>
+
+</div>
+
+
+<!-- CAMERA PAGE -->
+
+<div id="cameraPage" class="page hidden">
+
+<div class="card">
+
+<h3>📷 Camera</h3>
+
+<p class="small">
+Kamera hanya dapat digunakan dengan persetujuan pemilik perangkat.
+</p>
+
+<select id="cameraDevice">
+
+<option value="">Pilih Device</option>
+
+</select>
+
+<button id="requestCamera"
+class="green"
+style="width:100%;margin-top:10px">
+
+📷 REQUEST CAMERA
+
+</button>
+
+<p id="cameraStatus"
+class="small">
+Status: Idle
+</p>
+
+</div>
+
+</div>
+
+
+<!-- LOCATION PAGE -->
+
+<div id="locationPage" class="page hidden">
+
+<div class="card">
+
+<h3>📍 Shared Location</h3>
+
+<div id="locationList">
+
+<p class="small">
+Belum ada lokasi dibagikan.
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- MESSAGES PAGE -->
+
+<div id="messagesPage" class="page hidden">
+
+<div class="card">
+
+<h3>💬 Messages</h3>
+
+<select id="messageDevice">
+
+<option value="">Pilih Device</option>
+
+</select>
+
+<div id="messageBox"
+class="message-box"
+style="margin-top:10px">
+
+<p class="small">
+Pilih device untuk mulai chat.
+</p>
+
+</div>
+
+<textarea
+id="messageInput"
+placeholder="Tulis pesan...">
+</textarea>
+
+<button id="sendMessage">
+➤ SEND MESSAGE
+</button>
+
+</div>
+
+</div>
+
+
+<!-- ACTIVITY PAGE -->
+
+<div id="activityPage" class="page hidden">
+
+<div class="card">
+
+<div class="row">
+
+<h3>📋 Activity</h3>
+
+<button id="clearActivity"
+class="red">
+
+CLEAR
+
+</button>
+
+</div>
+
+<div id="activityList"></div>
+
+</div>
+
+</div>
+
+
+<!-- SETTINGS PAGE -->
+
+<div id="settingsPage" class="page hidden">
+
+<div class="card">
+
+<h3>⚙️ Settings</h3>
+
+<div class="row">
+
+<span>Dashboard ID</span>
+
+<b id="settingsId"></b>
+
+</div>
+
+<button id="resetDashboard"
+class="red"
+style="width:100%;margin-top:15px">
+
+RESET DASHBOARD
+
+</button>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<!-- ================= DEVICE ================= -->
+
+<div id="deviceApp" class="hidden">
+
+<div class="home">
+
+<div class="device-box">
+
+
+<!-- PAIR -->
+
+<div id="pairBox" class="card">
+
+<div class="logo">📱</div>
+
+<h2 style="text-align:center">
+CONNECT DEVICE
+</h2>
+
+<label class="small">
+Device Name
+</label>
+
+<input id="deviceName"
+placeholder="Contoh: HP Saya">
+
+
+<label class="small">
+Dashboard ID
+</label>
+
+<input id="pairId"
+placeholder="DASH_XXXX">
+
+
+<button id="connectDevice"
+style="width:100%">
+
+🔗 CONNECT DEVICE
+
+</button>
+
+
+<button id="deviceHome"
+class="secondary"
+style="width:100%;margin-top:10px">
+
+← BACK
+
+</button>
+
+</div>
+
+
+<!-- CONNECTED -->
+
+<div id="connectedBox"
+class="card hidden">
+
+<h2>📱 DEVICE CONNECTED</h2>
+
+<div class="row">
+
+<span>Device ID</span>
+
+<b id="deviceId"></b>
+
+</div>
+
+
+<div class="row">
+
+<span>Name</span>
+
+<b id="connectedName"></b>
+
+</div>
+
+
+<div class="row">
+
+<span>Status</span>
+
+<b class="online">
+● ONLINE
+</b>
+
+</div>
+
+
+<div class="row">
+
+<span>Battery</span>
+
+<b id="deviceBattery">
+--
+</b>
+
+</div>
+
+
+<button id="shareLocation"
+class="secondary"
+style="width:100%;margin-top:10px">
+
+📍 SHARE LOCATION
+
+</button>
+
+
+<button id="updateStatus"
+class="secondary"
+style="width:100%;margin-top:10px">
+
+🔄 UPDATE STATUS
+
+</button>
+
+
+<button id="disconnectDevice"
+class="red"
+style="width:100%;margin-top:10px">
+
+🔌 DISCONNECT
+
+</button>
+
+
+<div class="card">
+
+<h3>💬 Incoming Messages</h3>
+
+<div id="deviceMessages"
+class="message-box">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+
+<script>
+
+/* ================================
+   DATA
+================================ */
+
+var dashboardId =
+localStorage.getItem("dhDashboardId");
+
+if(!dashboardId){
+
+  dashboardId =
+  "DASH_" +
+  Date.now()
+  .toString(36)
+  .toUpperCase();
+
+  localStorage.setItem(
+  "dhDashboardId",
+  dashboardId
+  );
+
+}
+
+
+var deviceId =
+localStorage.getItem("dhDeviceId");
+
+if(!deviceId){
+
+  deviceId =
+  "DEVICE_" +
+  Date.now()
+  .toString(36)
+  .toUpperCase();
+
+  localStorage.setItem(
+  "dhDeviceId",
+  deviceId
+  );
+
+}
+
+
+var devices =
+JSON.parse(
+localStorage.getItem("dhDevices") || "{}"
+);
+
+
+var logs =
+JSON.parse(
+localStorage.getItem("dhLogs") || "[]"
+);
+
+
+var selectedDevice = null;
+
+
+/* ================================
+   HOME BUTTONS
+================================ */
+
+document
+.getElementById("dashboardBtn")
+.addEventListener("click", function(){
+
+  document
+  .getElementById("home")
+  .classList.add("hidden");
+
+  document
+  .getElementById("dashboardApp")
+  .classList.remove("hidden");
+
+  renderAll();
+
+});
+
+
+document
+.getElementById("deviceBtn")
+.addEventListener("click", function(){
+
+  document
+  .getElementById("home")
+  .classList.add("hidden");
+
+  document
+  .getElementById("deviceApp")
+  .classList.remove("hidden");
+
+});
+
+
+/* ================================
+   NAV MENU
+================================ */
+
+var navButtons =
+document.querySelectorAll(".nav-btn");
+
+
+for(
+var i = 0;
+i < navButtons.length;
+i++
+){
+
+  navButtons[i]
+  .addEventListener(
+  "click",
+  function(){
+
+    var page =
+    this.dataset.page;
+
+    openPage(page);
+
+    for(
+    var x = 0;
+    x < navButtons.length;
+    x++
+    ){
+
+      navButtons[x]
+      .classList.remove("active");
+
+    }
+
+    this
+    .classList.add("active");
+
+    document
+    .getElementById("sidebar")
+    .classList.remove("show");
+
+  });
+
+}
+
+
+function openPage(pageId){
+
+  var pages =
+  document.querySelectorAll(".page");
+
+  for(
+  var i = 0;
+  i < pages.length;
+  i++
+  ){
+
+    pages[i]
+    .classList.add("hidden");
+
+  }
+
+  document
+  .getElementById(pageId)
+  .classList.remove("hidden");
+
+  var titles = {
+
+    dashboardPage:
+    ["Dashboard","Overview perangkat"],
+
+    devicesPage:
+    ["Devices","Kelola perangkat"],
+
+    cameraPage:
+    ["Camera","Request kamera"],
+
+    locationPage:
+    ["Location","Lokasi yang dibagikan"],
+
+    messagesPage:
+    ["Messages","Kirim pesan"],
+
+    activityPage:
+    ["Activity","Riwayat aktivitas"],
+
+    settingsPage:
+    ["Settings","Pengaturan"]
+
+  };
+
+  document
+  .getElementById("pageTitle")
+  .innerText =
+  titles[pageId][0];
+
+  document
+  .getElementById("pageSubtitle")
+  .innerText =
+  titles[pageId][1];
+
+  renderAll();
+
+}
+
+
+/* ================================
+   MOBILE MENU
+================================ */
+
+document
+.getElementById("mobileMenu")
+.addEventListener("click", function(){
+
+  document
+  .getElementById("sidebar")
+  .classList.toggle("show");
+
+});
+
+
+/* ================================
+   BACK HOME
+================================ */
+
+document
+.getElementById("backHome")
+.addEventListener("click", function(){
+
+  document
+  .getElementById("dashboardApp")
+  .classList.add("hidden");
+
+  document
+  .getElementById("home")
+  .classList.remove("hidden");
+
+});
+
+
+document
+.getElementById("deviceHome")
+.addEventListener("click", function(){
+
+  document
+  .getElementById("deviceApp")
+  .classList.add("hidden");
+
+  document
+  .getElementById("home")
+  .classList.remove("hidden");
+
+});
+
+
+/* ================================
+   CONNECT DEVICE
+================================ */
+
+document
+.getElementById("connectDevice")
+.addEventListener("click", function(){
+
+  var name =
+  document
+  .getElementById("deviceName")
+  .value
+  .trim();
+
+  var pairId =
+  document
+  .getElementById("pairId")
+  .value
+  .trim();
+
+
+  if(name === ""){
+
+    alert("Masukkan nama device!");
+
+    return;
+
+  }
+
+
+  if(pairId === ""){
+
+    alert("Masukkan Dashboard ID!");
+
+    return;
+
+  }
+
+
+  devices[deviceId] = {
+
+    name:name,
+
+    dashboard:pairId,
+
+    online:true,
+
+    battery:"--",
+
+    lastSeen:Date.now()
+
+  };
+
+
+  saveDevices();
+
+
+  document
+  .getElementById("pairBox")
+  .classList.add("hidden");
+
+
+  document
+  .getElementById("connectedBox")
+  .classList.remove("hidden");
+
+
+  document
+  .getElementById("deviceId")
+  .innerText =
+  deviceId;
+
+
+  document
+  .getElementById("connectedName")
+  .innerText =
+  name;
+
+
+  updateDevice();
+
+
+  addLog(
+  "Device " +
+  name +
+  " connected"
+  );
+
+});
+
+
+/* ================================
+   UPDATE DEVICE
+================================ */
+
+document
+.getElementById("updateStatus")
+.addEventListener("click", function(){
+
+  updateDevice();
+
+});
+
+
+function updateDevice(){
+
+  if(!devices[deviceId])
+  return;
+
+
+  devices[deviceId]
+  .online = true;
+
+
+  devices[deviceId]
+  .lastSeen =
+  Date.now();
+
+
+  var battery = "--";
+
+
+  if(
+  navigator.getBattery
+  ){
+
+    navigator
+    .getBattery()
+    .then(function(b){
+
+      battery =
+      Math.round(
+      b.level * 100
+      ) + "%";
+
+
+      devices[deviceId]
+      .battery =
+      battery;
+
+
+      document
+      .getElementById("deviceBattery")
+      .innerText =
+      battery;
+
+
+      saveDevices();
+
+    });
+
+  }
+
+
+  saveDevices();
+
+}
+
+
+/* ================================
+   LOCATION
+================================ */
+
+document
+.getElementById("shareLocation")
+.addEventListener("click", function(){
+
+  if(
+  !navigator.geolocation
+  ){
+
+    alert(
+    "Browser tidak mendukung lokasi"
+    );
+
+    return;
+
+  }
+
+
+  navigator
+  .geolocation
+  .getCurrentPosition(
+
+  function(position){
+
+    if(
+    !devices[deviceId]
+    )
+    return;
+
+
+    devices[deviceId]
+    .location = {
+
+      lat:
+      position.coords.latitude,
+
+      lng:
+      position.coords.longitude,
+
+      accuracy:
+      position.coords.accuracy
+
+    };
+
+
+    saveDevices();
+
+    alert(
+    "Lokasi berhasil dibagikan"
+    );
+
+  },
+
+  function(){
+
+    alert(
+    "Izin lokasi ditolak"
+    );
+
+  }
+
+  );
+
+});
+
+
+/* ================================
+   DISCONNECT
+================================ */
+
+document
+.getElementById("disconnectDevice")
+.addEventListener("click", function(){
+
+  delete devices[deviceId];
+
+  saveDevices();
+
+
+  document
+  .getElementById("connectedBox")
+  .classList.add("hidden");
+
+
+  document
+  .getElementById("pairBox")
+  .classList.remove("hidden");
+
+
+  alert("Device disconnected");
+
+});
+
+
+/* ================================
+   SAVE DEVICES
+================================ */
+
+function saveDevices(){
+
+  localStorage.setItem(
+  "dhDevices",
+  JSON.stringify(devices)
+  );
+
+}
+
+
+/* ================================
+   RENDER DEVICES
+================================ */
+
+document
+.getElementById("deviceSearch")
+.addEventListener("input", function(){
+
+  renderDevices();
+
+});
+
+
+function renderDevices(){
+
+  var box =
+  document
+  .getElementById("deviceList");
+
+
+  box.innerHTML = "";
+
+
+  var search =
+  document
+  .getElementById("deviceSearch")
+  .value
+  .toLowerCase();
+
+
+  var keys =
+  Object.keys(devices);
+
+
+  for(
+  var i = 0;
+  i < keys.length;
+  i++
+  ){
+
+    var id =
+    keys[i];
+
+    var d =
+    devices[id];
+
+
+    if(
+    d.name
+    .toLowerCase()
+    .indexOf(search) === -1
+    )
+    continue;
+
+
+    var div =
+    document
+    .createElement("div");
+
+
+    div.className =
+    "device";
+
+
+    div.innerHTML =
+
+    "<div class='device-name'>📱 " +
+    d.name +
+    "</div>" +
+
+    "<div class='small'>" +
+    id +
+    "</div>" +
+
+    "<div class='row'>" +
+
+    "<span>Battery</span>" +
+
+    "<b>🔋 " +
+    (d.battery || "--") +
+    "</b>" +
+
+    "</div>" +
+
+    "<div class='row'>" +
+
+    "<span>Status</span>" +
+
+    "<b class='online'>" +
+    (d.online ?
+    "● ONLINE" :
+    "● OFFLINE") +
+    "</b>" +
+
+    "</div>" +
+
+    "<div class='actions'>" +
+
+    "<button class='secondary' data-msg='" +
+    id +
+    "'>💬</button>" +
+
+    "<button class='secondary' data-loc='" +
+    id +
+    "'>📍</button>" +
+
+    "<button class='secondary' data-cam='" +
+    id +
+    "'>📷</button>" +
+
+    "</div>";
+
+
+    box.appendChild(div);
+
+  }
+
+
+  if(keys.length === 0){
+
+    box.innerHTML =
+    "<div class='card'>" +
+    "<p class='small'>" +
+    "Belum ada device." +
+    "</p>" +
+    "</div>";
+
+  }
+
+
+  bindDeviceButtons();
+
+}
+
+
+/* ================================
+   DEVICE BUTTONS
+================================ */
+
+function bindDeviceButtons(){
+
+  var msgButtons =
+  document.querySelectorAll("[data-msg]");
+
+
+  for(
+  var i=0;
+  i<msgButtons.length;
+  i++
+  ){
+
+    msgButtons[i]
+    .addEventListener(
+    "click",
+    function(){
+
+      selectedDevice =
+      this.dataset.msg;
+
+      openPage(
+      "messagesPage"
+      );
+
+      document
+      .getElementById("messageDevice")
+      .value =
+      selectedDevice;
+
+    });
+
+  }
+
+
+  var locButtons =
+  document.querySelectorAll("[data-loc]");
+
+
+  for(
+  var x=0;
+  x<locButtons.length;
+  x++
+  ){
+
+    locButtons[x]
+    .addEventListener(
+    "click",
+    function(){
+
+      openPage(
+      "locationPage"
+      );
+
+    });
+
+  }
+
+
+  var camButtons =
+  document.querySelectorAll("[data-cam]");
+
+
+  for(
+  var y=0;
+  y<camButtons.length;
+  y++
+  ){
+
+    camButtons[y]
+    .addEventListener(
+    "click",
+    function(){
+
+      selectedDevice =
+      this.dataset.cam;
+
+      openPage(
+      "cameraPage"
+      );
+
+    });
+
+  }
+
+}
+
+
+/* ================================
+   STATS
+================================ */
+
+function renderStats(){
+
+  var keys =
+  Object.keys(devices);
+
+
+  document
+  .getElementById("totalDevices")
+  .innerText =
+  keys.length;
+
+
+  var online = 0;
+
+  var locations = 0;
+
+  var battery = "--";
+
+
+  for(
+  var i=0;
+  i<keys.length;
+  i++
+  ){
+
+    var d =
+    devices[keys[i]];
+
+
+    if(d.online)
+    online++;
+
+
+    if(d.location)
+    locations++;
+
+
+    if(d.battery)
+    battery=d.battery;
+
+  }
+
+
+  document
+  .getElementById("onlineDevices")
+  .innerText =
+  online;
+
+
+  document
+  .getElementById("locationCount")
+  .innerText =
+  locations;
+
+
+  document
+  .getElementById("batteryValue")
+  .innerText =
+  battery;
+
+}
+
+
+/* ================================
+   LOCATION LIST
+================================ */
+
+function renderLocations(){
+
+  var box =
+  document
+  .getElementById("locationList");
+
+
+  box.innerHTML = "";
+
+
+  var keys =
+  Object.keys(devices);
+
+
+  var found =
+  false;
+
+
+  for(
+  var i=0;
+  i<keys.length;
+  i++
+  ){
+
+    var id =
+    keys[i];
+
+    var d =
+    devices[id];
+
+
+    if(!d.location)
+    continue;
+
+
+    found=true;
+
+
+    var div =
+    document
+    .createElement("div");
+
+
+    div.className =
+    "device";
+
+
+    div.innerHTML =
+
+    "<b>📍 " +
+    d.name +
+    "</b>" +
+
+    "<div class='row'>" +
+
+    "<span>Latitude</span>" +
+
+    "<b>" +
+    d.location.lat +
+    "</b>" +
+
+    "</div>" +
+
+    "<div class='row'>" +
+
+    "<span>Longitude</span>" +
+
+    "<b>" +
+    d.location.lng +
+    "</b>" +
+
+    "</div>" +
+
+    "<button class='map-btn' data-map='" +
+    id +
+    "' style='width:100%;margin-top:10px'>" +
+
+    "🗺️ OPEN MAP" +
+
+    "</button>";
+
+
+    box.appendChild(div);
+
+  }
+
+
+  if(!found){
+
+    box.innerHTML =
+    "<p class='small'>" +
+    "Belum ada lokasi dibagikan." +
+    "</p>";
+
+  }
+
+
+  var maps =
+  document.querySelectorAll(".map-btn");
+
+
+  for(
+  var x=0;
+  x<maps.length;
+  x++
+  ){
+
+    maps[x]
+    .addEventListener(
+    "click",
+    function(){
+
+      var id =
+      this.dataset.map;
+
+
+      var l =
+      devices[id].location;
+
+
+      window.open(
+      "https://www.google.com/maps?q=" +
+      l.lat +
+      "," +
+      l.lng
+      );
+
+    });
+
+  }
+
+}
+
+
+/* ================================
+   SELECT DEVICES
+================================ */
+
+function renderSelects(){
+
+  var camera =
+  document
+  .getElementById("cameraDevice");
+
+
+  var message =
+  document
+  .getElementById("messageDevice");
+
+
+  camera.innerHTML =
+  "<option value=''>" +
+  "Pilih Device" +
+  "</option>";
+
+
+  message.innerHTML =
+  "<option value=''>" +
+  "Pilih Device" +
+  "</option>";
+
+
+  var keys =
+  Object.keys(devices);
+
+
+  for(
+  var i=0;
+  i<keys.length;
+  i++
+  ){
+
+    var id =
+    keys[i];
+
+
+    var name =
+    devices[id].name;
+
+
+    camera.innerHTML +=
+
+    "<option value='" +
+    id +
+    "'>" +
+    name +
+    "</option>";
+
+
+    message.innerHTML +=
+
+    "<option value='" +
+    id +
+    "'>" +
+    name +
+    "</option>";
+
+  }
+
+}
+
+
+/* ================================
+   CAMERA REQUEST
+================================ */
+
+document
+.getElementById("requestCamera")
+.addEventListener("click", function(){
+
+  var id =
+  document
+  .getElementById("cameraDevice")
+  .value;
+
+
+  if(!id){
+
+    alert("Pilih device!");
+
+    return;
+
+  }
+
+
+  document
+  .getElementById("cameraStatus")
+  .innerText =
+  "Status: Request sent";
+
+
+  addLog(
+  "Camera request untuk " +
+  devices[id].name
+  );
+
+
+  alert(
+  "Request kamera dikirim. Pemilik perangkat harus menyetujui."
+  );
+
+});
+
+
+/* ================================
+   MESSAGE
+================================ */
+
+document
+.getElementById("messageDevice")
+.addEventListener("change",function(){
+
+  selectedDevice =
+  this.value;
+
+  renderMessages();
+
+});
+
+
+document
+.getElementById("sendMessage")
+.addEventListener("click",function(){
+
+  var text =
+  document
+  .getElementById("messageInput")
+  .value
+  .trim();
+
+
+  if(!selectedDevice){
+
+    alert("Pilih device!");
+
+    return;
+
+  }
+
+
+  if(!text){
+
+    alert("Tulis pesan!");
+
+    return;
+
+  }
+
+
+  var key =
+  "dhMessages_" +
+  selectedDevice;
+
+
+  var messages =
+  JSON.parse(
+  localStorage.getItem(key)
+  || "[]"
+  );
+
+
+  messages.push({
+
+    text:text,
+
+    time:Date.now()
+
+  });
+
+
+  localStorage.setItem(
+  key,
+  JSON.stringify(messages)
+  );
+
+
+  document
+  .getElementById("messageInput")
+  .value = "";
+
+
+  renderMessages();
+
+
+  addLog(
+  "Pesan dikirim ke " +
+  devices[selectedDevice].name
+  );
+
+});
+
+
+function renderMessages(){
+
+  var box =
+  document
+  .getElementById("messageBox");
+
+
+  box.innerHTML = "";
+
+
+  if(!selectedDevice){
+
+    box.innerHTML =
+    "<p class='small'>" +
+    "Pilih device." +
+    "</p>";
+
+    return;
+
+  }
+
+
+  var messages =
+  JSON.parse(
+  localStorage.getItem(
+  "dhMessages_" +
+  selectedDevice
+  ) || "[]"
+  );
+
+
+  for(
+  var i=0;
+  i<messages.length;
+  i++
+  ){
+
+    var div =
+    document
+    .createElement("div");
+
+
+    div.className =
+    "msg";
+
+
+    div.innerHTML =
+
+    messages[i].text +
+
+    "<div class='small'>" +
+
+    new Date(
+    messages[i].time
+    )
+    .toLocaleTimeString() +
+
+    "</div>";
+
+
+    box.appendChild(div);
+
+  }
+
+}
+
+
+/* ================================
+   ACTIVITY
+================================ */
+
+function addLog(text){
+
+  logs.unshift({
+
+    text:text,
+
+    time:Date.now()
+
+  });
+
+
+  localStorage.setItem(
+  "dhLogs",
+  JSON.stringify(logs)
+  );
+
+
+  renderLogs();
+
+}
+
+
+function renderLogs(){
+
+  var box =
+  document
+  .getElementById("activityList");
+
+
+  box.innerHTML = "";
+
+
+  if(logs.length === 0){
+
+    box.innerHTML =
+    "<p class='small'>" +
+    "Belum ada aktivitas." +
+    "</p>";
+
+    return;
+
+  }
+
+
+  for(
+  var i=0;
+  i<logs.length;
+  i++
+  ){
+
+    var div =
+    document
+    .createElement("div");
+
+
+    div.className =
+    "device";
+
+
+    div.innerHTML =
+
+    "<b>" +
+    logs[i].text +
+    "</b>" +
+
+    "<div class='small'>" +
+
+    new Date(
+    logs[i].time
+    )
+    .toLocaleString() +
+
+    "</div>";
+
+
+    box.appendChild(div);
+
+  }
+
+}
+
+
+document
+.getElementById("clearActivity")
+.addEventListener("click",function(){
+
+  logs=[];
+
+
+  localStorage.setItem(
+  "dhLogs",
+  "[]"
+  );
+
+
+  renderLogs();
+
+});
+
+
+/* ================================
+   SETTINGS
+================================ */
+
+document
+.getElementById("resetDashboard")
+.addEventListener("click",function(){
+
+  if(
+  !confirm(
+  "Reset Dashboard?"
+  )
+  )
+  return;
+
+
+  localStorage.removeItem(
+  "dhDashboardId"
+  );
+
+
+  location.reload();
+
+});
+
+
+/* ================================
+   RENDER ALL
+================================ */
+
+function renderAll(){
+
+  document
+  .getElementById("dashboardId")
+  .innerText =
+  dashboardId;
+
+
+  document
+  .getElementById("settingsId")
+  .innerText =
+  dashboardId;
+
+
+  renderStats();
+
+  renderDevices();
+
+  renderLocations();
+
+  renderSelects();
+
+  renderLogs();
+
+}
+
+
+/* ================================
+   START
+================================ */
+
+renderAll();
+
+</script>
+
+</body>
+</html>
